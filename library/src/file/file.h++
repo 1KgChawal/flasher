@@ -3,6 +3,8 @@
 #include <fcntl.h>
 #include <unistd.h>
 
+#include <cerrno>
+#include <cstring>
 #include <filesystem>
 #include <fstream>
 #include <iostream>

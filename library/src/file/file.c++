@@ -47,6 +47,9 @@ USBdrive_flasher::USBdrive_flasher(const std::string &dest, const std::string &s
     }
     input_size = get_size(src);
     fd_out = open(dest.c_str(), O_WRONLY);
+    if(fd_out < 0){
+        throw std::runtime_error(strerror(errno));
+    }
 }
 
 size_t USBdrive_flasher::initiate_flashing() {
