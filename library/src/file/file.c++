@@ -46,6 +46,7 @@ USBdrive_flasher::USBdrive_flasher(const std::string &dest, const std::string &s
         throw std::runtime_error("unable to open src");
     }
     input_size = get_size(src);
+    fd_out = open(dest.c_str(), O_WRONLY);
 }
 
 size_t USBdrive_flasher::initiate_flashing() {
@@ -71,7 +72,16 @@ size_t USBdrive_flasher::initiate_flashing() {
             throw std::runtime_error("error occured during runtime flashing");
         }
         print_progress(bytes_read, input_size);
+        if(bytes_read % 1024*1024 == 0){
+            fout.flush();
+            fsync(fd_out);
+        }
     }
+    fsync(fd_out);
     std::cout << "\nFlashing completed" << std::endl;
     return bytes_read;
+}
+
+USBdrive_flasher::~USBdrive_flasher(){
+    close(fd_out);
 }
