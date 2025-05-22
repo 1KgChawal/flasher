@@ -72,7 +72,7 @@ size_t USBdrive_flasher::initiate_flashing() {
             throw std::runtime_error("error occured during runtime flashing");
         }
         print_progress(bytes_read, input_size);
-        if(bytes_read % 1024*1024 == 0){
+        if(bytes_read % 32*1024*1024 == 0){
             fout.flush();
             fsync(fd_out);
         }
